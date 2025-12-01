@@ -5,843 +5,198 @@
   <title>XML → IP CSV Converter</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f4f5f7;
-      color: #222;
-    }
-
-    .container {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 0 16px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    }
-
-    h1 {
-      margin-top: 0;
-      font-size: 1.6rem;
-    }
-
-    p {
-      margin-top: 0;
-    }
-
-    .section-title {
-      font-weight: 600;
-      margin: 24px 0 8px;
-    }
-
-    .input-group {
-      margin-bottom: 16px;
-    }
-
-    .file-input-label {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      font-size: 0.9rem;
-      background: #fafafa;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    .dropzone {
-      border: 2px dashed #ccc;
-      border-radius: 6px;
-      padding: 24px;
-      text-align: center;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      background: #fafafa;
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .dropzone.dragover {
-      border-color: #0077ff;
-      background: #e8f2ff;
-    }
-
-    .file-info {
-      font-size: 0.85rem;
-      color: #333;
-      text-align: center;
-      min-height: 18px;
-      margin-bottom: 8px;
-    }
-
-    .file-info span {
-      font-weight: 600;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 160px;
-      resize: vertical;
-      padding: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-family: monospace;
-      font-size: 0.85rem;
-    }
-
-    .actions {
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: none;
-      border-radius: 4px;
-      padding: 8px 16px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      background: #0077ff;
-      color: #fff;
-      font-weight: 500;
-      transition: background 0.15s, opacity 0.15s;
-    }
-
-    button:hover:not(:disabled) {
-      background: #005fd1;
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .status {
-      margin-top: 8px;
-      font-size: 0.85rem;
-      min-height: 18px;
-    }
-
-    .status.error {
-      color: #c0392b;
-    }
-
-    .status.success {
-      color: #2c7a3f;
-    }
-
-    .status.info {
-      color: #555;
-    }
-
-    .summary {
-      margin-top: 16px;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      font-size: 0.85rem;
-    }
-
-    th, td {
-      padding: 6px 8px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-      font-family: monospace;
-    }
-
-    th {
-      background: #fafafa;
-      font-weight: 600;
-    }
-
-    .results-wrapper {
-      max-height: 400px;
-      overflow: auto;
-      border-radius: 4px;
-      border: 1px solid #eee;
-      margin-top: 8px;
-      background: #fff;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      background: #e8f2ff;
-      color: #004b9a;
-      margin-left: 8px;
-    }
-
-    .results-actions {
-      margin-top: 8px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 600px) {
-      .actions {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      button {
-        width: 100%;
-        text-align: center;
-      }
-
-      .results-actions {
-        flex-direction: column;
-      }
-    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f4f5f7; color:#222; padding:20px; }
+    .container{max-width:960px;margin:40px auto;padding:0 16px;}
+    .card{background:#fff;border-radius:8px;padding:24px;box-shadow:0 2px 6px rgba(0,0,0,0.06);}
+    h1{margin-top:0;font-size:1.6rem;}
+    .dropzone{border:2px dashed #ccc;border-radius:6px;padding:24px;text-align:center;margin-bottom:8px;background:#fafafa;min-height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    textarea{width:100%;min-height:160px;resize:vertical;padding:10px;border-radius:4px;border:1px solid #ccc;font-family:monospace;font-size:0.85rem;}
+    button{background:#0077ff;color:#fff;border:none;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:500;}
+    button:disabled{opacity:.6;cursor:not-allowed;}
+    table{border-collapse:collapse;width:100%;font-family:monospace;font-size:0.85rem;margin-top:12px;}
+    td,th{border-bottom:1px solid #eee;padding:6px;}
+    .status{margin-top:8px;font-size:0.85rem;min-height:18px;}
+    .status.error{color:#c0392b;}
+    .status.success{color:#2c7a3f;}
+    .status.info{color:#555;}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.8rem;background:#e8f2ff;color:#004b9a;margin-left:8px;}
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>XML → IP CSV Converter</h1>
-      <p>
-        Upload / drag &amp; drop / paste XML berisi tag <code>&lt;definition&gt;</code> (Base64 + PHP serialize),
-        lalu konversi ke daftar IP per-satuan dan download sebagai CSV atau copy langsung ke clipboard.
-      </p>
+<div class="container">
+<div class="card">
+  <h1>XML → IP CSV Converter</h1>
 
-      <div class="section-title">1. Input XML</div>
-
-      <div class="input-group">
-        <div id="dropzone" class="dropzone">
-          Drag &amp; drop file XML di sini<br />
-          <span style="font-size: 0.8rem; color: #666;">(prioritas tertinggi jika digunakan)</span>
-        </div>
-        <div id="fileInfo" class="file-info"></div>
-      </div>
-
-      <div class="input-group">
-        <label class="file-input-label" for="fileInput">
-          Pilih file XML…
-        </label>
-        <input id="fileInput" type="file" accept=".xml,text/xml" />
-        <span style="font-size: 0.8rem; color: #666; margin-left: 8px;">
-          (prioritas kedua jika tidak ada drag &amp; drop)
-        </span>
-      </div>
-
-      <div class="input-group">
-        <label for="xmlTextarea" class="section-title" style="margin-top: 12px;">2. Atau paste XML langsung</label>
-        <textarea id="xmlTextarea" placeholder="Paste isi XML di sini..."></textarea>
-        <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">
-          Ini akan digunakan jika tidak ada file drop / upload.
-        </div>
-      </div>
-
-      <div class="actions">
-        <button id="convertBtn">Convert to CSV</button>
-        <button id="downloadBtn" disabled>Download CSV</button>
-        <button id="copyBtn" disabled>Copy hasil ke Clipboard</button>
-        <span id="loadingIndicator" class="status info"></span>
-      </div>
-
-      <div id="statusMessage" class="status"></div>
-
-      <div id="resultsSection" style="margin-top: 16px; display: none;">
-        <div class="summary">
-          Ditemukan <span id="ipCount">0</span> IP unik
-          <span class="badge" id="sourceInfo"></span>
-        </div>
-
-        <div class="results-actions">
-          <!-- tombol copy kedua (opsional, dekat tabel) bisa ditambah kalau mau;
-               sekarang kita pakai yang di bar utama saja -->
-        </div>
-
-        <div class="results-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>IP Address</th>
-              </tr>
-            </thead>
-            <tbody id="resultsBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+  <div class="dropzone" id="dropzone">
+    Drag &amp; drop file XML di sini<br />
+    <span style="font-size:0.8rem;color:#666;">(prioritas tertinggi jika digunakan)</span>
   </div>
 
-  <script>
-    (function () {
-      const dropzone = document.getElementById('dropzone');
-      const fileInput = document.getElementById('fileInput');
-      const xmlTextarea = document.getElementById('xmlTextarea');
-      const convertBtn = document.getElementById('convertBtn');
-      const downloadBtn = document.getElementById('downloadBtn');
-      const copyBtn = document.getElementById('copyBtn');
-      const statusMessage = document.getElementById('statusMessage');
-      const loadingIndicator = document.getElementById('loadingIndicator');
-      const resultsSection = document.getElementById('resultsSection');
-      const resultsBody = document.getElementById('resultsBody');
-      const ipCountEl = document.getElementById('ipCount');
-      const sourceInfoEl = document.getElementById('sourceInfo');
-      const fileInfoEl = document.getElementById('fileInfo');
+  <input id="fileInput" type="file" accept=".xml,text/xml"/>
+  <textarea id="xmlTextarea" placeholder="Paste isi XML di sini jika tidak menggunakan file..."></textarea>
+  <br/><br/>
 
-      let droppedFileContent = null;
-      let uploadedFileContent = null;
-      let droppedFileName = null;
-      let uploadedFileName = null;
-      let lastGeneratedIps = [];
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <button id="convertBtn">Convert to CSV</button>
+    <button id="downloadBtn" disabled>Download CSV</button>
+    <button id="copyBtn" disabled>Copy hasil ke Clipboard</button>
+    <span id="loadingIndicator" class="status info"></span>
+  </div>
 
-      const MAX_EXPANDED_IPS = 1_000_000; // safety guard
+  <div id="statusMessage" class="status"></div>
 
-      function setStatus(message, type) {
-        statusMessage.textContent = message || '';
-        statusMessage.className = 'status' + (type ? ' ' + type : '');
-      }
+  <div id="resultsSection" style="display:none;">
+    <h3>Ditemukan <span id="ipCount">0</span> IP unik <span class="badge" id="sourceInfo"></span></h3>
+    <table>
+      <thead><tr><th>IP Address</th></tr></thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+  </div>
 
-      function setLoading(message) {
-        loadingIndicator.textContent = message || '';
-      }
+</div></div>
+</div>
 
-      function clearResults() {
-        resultsBody.innerHTML = '';
-        resultsSection.style.display = 'none';
-        ipCountEl.textContent = '0';
-        downloadBtn.disabled = true;
-        copyBtn.disabled = true;
-        lastGeneratedIps = [];
-      }
+<script>
+(function(){
+const dz = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const xmlTextarea = document.getElementById('xmlTextarea');
+const convertBtn = document.getElementById('convertBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const copyBtn = document.getElementById('copyBtn');
+const statusMessage = document.getElementById('statusMessage');
+const resultsSection = document.getElementById('resultsSection');
+const resultsBody = document.getElementById('resultsBody');
+const ipCountEl = document.getElementById('ipCount');
+const sourceInfoEl = document.getElementById('sourceInfo');
+const loadingEl = document.getElementById('loadingIndicator');
 
-      function updateFileInfo(name, sourceLabel) {
-        if (!name) {
-          fileInfoEl.textContent = '';
-          return;
-        }
-        fileInfoEl.innerHTML =
-          'File terpilih (' + sourceLabel + '): <span>' +
-          name +
-          '</span><br/>Klik <strong>Convert to CSV</strong> untuk melanjutkan.';
-      }
+let droppedXml = null;
+let droppedName = null;
 
-      // Drag & drop handlers
-      dropzone.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
-        dropzone.classList.add('dragover');
-      });
+// Drag & Drop File Reader
+dz.addEventListener('dragover', e=>{
+  e.preventDefault();
+  dz.style.borderColor = '#0077ff';
+});
+dz.addEventListener('dragleave', e=>{
+  e.preventDefault();
+  dz.style.borderColor = '#ccc';
+});
+dz.addEventListener('drop', e=>{
+  e.preventDefault();
+  dz.style.borderColor = '#ccc';
+  const file = e.dataTransfer.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    droppedXml = ev.target.result;
+    droppedName = file.name;
+    dz.innerHTML = `<strong>File "${droppedName}" dari drag &amp; drop sudah dimuat. Siap di-convert. Klik Convert to CSV</strong>`;
+  };
+  reader.readAsText(file);
 
-      dropzone.addEventListener('dragleave', function (e) {
-        e.preventDefault();
-        dropzone.classList.remove('dragover');
-      });
+  setStatus(`File "${file.name}" berhasil masuk. Klik Convert to CSV untuk melanjutkan.`);
+});
 
-      dropzone.addEventListener('drop', function (e) {
-        e.preventDefault();
-        dropzone.classList.remove('dragover');
-        const file = e.dataTransfer.files && e.dataTransfer.files[0];
-        if (!file) {
-          setStatus('Tidak ada file yang terdeteksi saat drop.', 'error');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function (ev) {
-          droppedFileContent = ev.target.result;
-          droppedFileName = file.name;
-          // Drop punya prioritas, clear upload info
-          uploadedFileContent = null;
-          uploadedFileName = null;
-          updateFileInfo(droppedFileName, 'drag & drop');
-          setStatus(
-            'File "' + droppedFileName + '" dari drag & drop sudah dimuat. Klik Convert to CSV untuk melanjutkan.',
-            'success'
-          );
-        };
-        reader.onerror = function () {
-          setStatus('Gagal membaca file yang di-drop.', 'error');
-        };
-        reader.readAsText(file);
-      });
+// Convert & CSV Export
+convertBtn.addEventListener('click', ()=>{
+  clearResults();
+  const xml = xmlTextarea.value.trim() || droppedXml;
+  const label = droppedName ? 'Drag & drop file ('+droppedName+')' : 'Textarea';
+  if(!xml){ setStatus('Tidak ada XML input','error'); return; }
 
-      // File input handler
-      fileInput.addEventListener('change', function () {
-        const file = fileInput.files && fileInput.files[0];
-        uploadedFileContent = null;
-        uploadedFileName = null;
-        if (!file) {
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function (ev) {
-          uploadedFileContent = ev.target.result;
-          uploadedFileName = file.name;
-          // Hanya update file info kalau tidak ada dropped file (drop tetap prioritas)
-          if (!droppedFileContent) {
-            updateFileInfo(uploadedFileName, 'upload');
-          }
-          setStatus(
-            'File "' + uploadedFileName + '" dari upload sudah dimuat. Klik Convert to CSV untuk melanjutkan.',
-            'success'
-          );
-        };
-        reader.onerror = function () {
-          setStatus('Gagal membaca file upload.', 'error');
-        };
-        reader.readAsText(file);
-      });
+  try{
+    const ips = parseIps(xml);
+    lastIps = ips;
+    renderIps(ips, label);
+    downloadBtn.disabled = false;
+    copyBtn.disabled = false;
+    setLoading('');
+    setStatus('Convert berhasil ✅. IP siap di-download atau di-copy','success');
+  }catch(e){
+    setStatus('Error: '+e.message,'error');
+    setLoading('');
+  }
+});
 
-      // Core: convert handler
-      convertBtn.addEventListener('click', function () {
-        clearResults();
-        setStatus('', '');
-        setLoading('');
+// Download CSV
+downloadBtn.addEventListener('click', ()=>{
+  if(!lastIps.length) return;
+  const csv = ['IP Address',...lastIps].join('\\n');
+  const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'export_ips.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
 
-        let xmlSource = null;
-        let sourceLabel = '';
-        let fileName = '';
+// Copy to Clipboard
+copyBtn.addEventListener('click', ()=>{
+  if(!lastIps.length) return;
+  const text = ['IP Address',...lastIps].join('\\n');
+  navigator.clipboard.writeText(text)
+    .then(()=> setStatus('IP copied to clipboard ✅. Paste ke Excel sekarang.','success'))
+    .catch(()=> setStatus('Gagal copy','error'));
+});
 
-        if (droppedFileContent) {
-          xmlSource = droppedFileContent;
-          sourceLabel = 'Drag & drop file';
-          fileName = droppedFileName || '';
-        } else if (uploadedFileContent) {
-          xmlSource = uploadedFileContent;
-          sourceLabel = 'File upload';
-          fileName = uploadedFileName || '';
-        } else {
-          const text = xmlTextarea.value.trim();
-          if (text) {
-            xmlSource = text;
-            sourceLabel = 'Textarea (paste)';
-          }
-        }
+// Helpers
+function setStatus(msg, type='info'){
+  statusMessage.innerHTML = `<strong>${msg}</strong>`;
+  statusMessage.className = 'status '+type;
+}
+function setLoading(msg){ loadingEl.textContent = msg; }
+function setLoading(msg){ dz.innerHTML = `<strong>${msg}</strong>`; }
+function renderIps(l){
+  dz.innerHTML = `<strong>File "${droppedName}" dari upload sudah dimuat ✅. Klik Convert to CSV</strong>`;
+}
 
-        if (!xmlSource) {
-          setStatus('Tidak ada input XML. Gunakan drag & drop, upload, atau paste di textarea.', 'error');
-          return;
-        }
+// Parsing XML → Base64 → PHP-unserialize → IP expand
+function parseIps(xmlString){
+  const doc = new DOMParser().parseFromString(xmlString,'application/xml');
+  const def = doc.getElementsByTagName('definition')[0];
+  if(!def) throw new Error('Tag <definition> tidak ditemukan');
+  let ser;
+  try{ ser = atob(def.textContent.trim()); }catch(e){ throw new Error('Base64 invalid');}
+  const o = phpUnserialize(ser);
+  const ipStr = o.definedIPs || o['definedIPs'];
+  if(!ipStr) throw new Error('Key definedIPs tidak ditemukan');
+  const set = new Set();
+  for(const i of ipStr.split(',')){
+    const v=i.trim(); if(!v) continue;
+    if(v.includes('-')) expandRange(v,set);
+    else if(v.includes('/')) expandCidr(v,set);
+    else if(isValidIp(v)) set.add(v);
+  }
+  return [...set];
+}
 
-        if (!fileName && sourceLabel === 'Textarea (paste)') {
-          updateFileInfo(null, '');
-        }
+function isValidIp(ip){ return /^\\d+\\.\\d+\\.\\d+\\.\\d+$/.test(ip) && ip.split('.').every(o=>o>=0&&o<=255); }
+function ipToInt(ip){return ip.split('.').reduce((n,p)=>n*256+ +p,0);}
+function intToIp(n){return[(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.');}
+function estimateRangeSize(r){const[a,b]=r.split('-').map(s=>s.trim());return Math.abs(ipToInt(b)-ipToInt(a))+1;}
+function estimateCidrSize(c){const[i,p]=c.split('/');return Math.pow(2,32-p);}
 
-        setLoading('Processing...');
-        setStatus('', '');
+// Expand range
+function expandRange(r,set){let[a,b]=r.split('-').map(s=>s.trim());let s=ipToInt(a),e=ipToInt(b);if(e<s)[s,e]=[e,s];for(let i=s;i<=e;i++)set.add(intToIp(i));}
 
-        setTimeout(function () {
-          try {
-            const ips = processXml(xmlSource);
-            if (!ips || ips.length === 0) {
-              setStatus('Tidak ada IP valid yang ditemukan di definisi.', 'error');
-              setLoading('');
-              return;
-            }
-            lastGeneratedIps = ips;
-            renderResults(ips, sourceLabel);
-            setStatus('Konversi berhasil. CSV siap di-download atau copy hasil ke clipboard.', 'success');
-            setLoading('');
-          } catch (err) {
-            console.error(err);
-            setStatus('Error saat memproses XML: ' + (err.message || err), 'error');
-            setLoading('');
-          }
-        }, 10);
-      });
+// Expand CIDR
+function expandCidr(c,set){const[ip,p]=c.split('/');const n=ipToInt(ip.trim());const h=Math.pow(2,32-+p.trim());const m=~(h-1)>>>0;const b=n&m;for(let i=0;i<h;i++)set.add(intToIp(b+i));}
 
-      // Download CSV handler
-      downloadBtn.addEventListener('click', function () {
-        if (!lastGeneratedIps || lastGeneratedIps.length === 0) {
-          return;
-        }
-        const header = 'IP Address';
-        const lines = [header].concat(lastGeneratedIps);
-        const csvContent = lines.join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
+// PHP unserialize parser minimal
+function php(data){ let i=0;
+  const r=()=>{ const t=data[i++]; if(t==='N'){i++;return null;}
+    if(t==='i'){i++;const n=parseInt(data.slice(i,data.indexOf(';',i))); i=data.indexOf(';',i)+1; return n;}
+    if(t==='s'){i++;const l=parseInt(data.slice(i,data.indexOf(':',i))); i=data.indexOf(':',i)+2; const s=data.substr(i,l); i+=l+2; return s;}
+    if(t==='a'){i++;const c=parseInt(data.slice(i,data.indexOf(':',i))); i=data.indexOf(':',i)+2; const o={};
+      for(let k=0;k<c;k++){ const K=r(),V=r(); o[K]=V; } i++; return o; }
+  }; return r(); }
+  return r(); }
 
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'export_ips.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      });
-
-      // Copy to clipboard handler
-      copyBtn.addEventListener('click', function () {
-        if (!lastGeneratedIps || lastGeneratedIps.length === 0) {
-          return;
-        }
-        // Format: cocok untuk paste langsung ke Excel (1 kolom)
-        const header = 'IP Address';
-        const text = [header].concat(lastGeneratedIps).join('\n');
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text)
-            .then(function () {
-              setStatus('Hasil sudah disalin ke clipboard. Paste langsung ke Excel / editor favoritmu.', 'success');
-            })
-            .catch(function (err) {
-              console.warn('Clipboard API gagal, fallback ke textarea hidden.', err);
-              fallbackCopyText(text);
-            });
-        } else {
-          fallbackCopyText(text);
-        }
-      });
-
-      function fallbackCopyText(text) {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.top = '-9999px';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        try {
-          const ok = document.execCommand('copy');
-          if (ok) {
-            setStatus('Hasil sudah disalin ke clipboard (fallback mode).', 'success');
-          } else {
-            setStatus('Gagal menyalin ke clipboard. Tapi kamu bisa select & copy manual dari tabel.', 'error');
-          }
-        } catch (e) {
-          setStatus('Gagal menyalin ke clipboard. Tapi kamu bisa select & copy manual dari tabel.', 'error');
-        }
-        document.body.removeChild(ta);
-      }
-
-      function renderResults(ips, sourceLabel) {
-        resultsBody.innerHTML = '';
-        ips.forEach(ip => {
-          const tr = document.createElement('tr');
-          const td = document.createElement('td');
-          td.textContent = ip;
-          tr.appendChild(td);
-          resultsBody.appendChild(tr);
-        });
-        ipCountEl.textContent = String(ips.length);
-        sourceInfoEl.textContent = sourceLabel || 'Unknown source';
-        resultsSection.style.display = 'block';
-        downloadBtn.disabled = false;
-        copyBtn.disabled = false;
-      }
-
-      // Parsing pipeline
-      function processXml(xmlString) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(xmlString, 'application/xml');
-        const parserError = doc.getElementsByTagName('parsererror')[0];
-        if (parserError) {
-          throw new Error('XML tidak valid: ' + parserError.textContent.replace(/\s+/g, ' ').trim());
-        }
-
-        const assetNodes = doc.getElementsByTagName('asset');
-        if (!assetNodes || assetNodes.length === 0) {
-          throw new Error('Tag <asset> tidak ditemukan di XML.');
-        }
-
-        const ipSet = new Set();
-        let definitionCount = 0;
-
-        for (let i = 0; i < assetNodes.length; i++) {
-          const asset = assetNodes[i];
-          const defNodes = asset.getElementsByTagName('definition');
-          if (!defNodes || defNodes.length === 0) {
-            continue;
-          }
-          const defNode = defNodes[0];
-          const base64Str = (defNode.textContent || '').trim();
-          if (!base64Str) {
-            continue;
-          }
-          definitionCount++;
-          let serialized;
-          try {
-            serialized = atob(base64Str);
-          } catch (e) {
-            console.warn('Gagal decode Base64 untuk <definition> ke-' + definitionCount, e);
-            continue;
-          }
-
-          let obj;
-          try {
-            obj = phpUnserialize(serialized);
-          } catch (e) {
-            console.warn('Gagal unserialize PHP untuk <definition> ke-' + definitionCount, e);
-            continue;
-          }
-
-          if (!obj || (typeof obj !== 'object')) {
-            continue;
-          }
-
-          const definedIPsStr = obj.definedIPs || obj['definedIPs'];
-          if (!definedIPsStr || typeof definedIPsStr !== 'string') {
-            continue;
-          }
-
-          parseDefinedIPs(definedIPsStr, ipSet);
-        }
-
-        if (definitionCount === 0) {
-          throw new Error('Tidak ada tag <definition> dengan konten Base64 yang ditemukan.');
-        }
-
-        const ips = Array.from(ipSet);
-        ips.sort(function (a, b) {
-          return ipToInt(a) - ipToInt(b);
-        });
-
-        return ips;
-      }
-
-      // PHP unserialize minimal implementation (support: a, s, i, N)
-      function phpUnserialize(data) {
-        let offset = 0;
-
-        function readType() {
-          const type = data[offset];
-          offset++;
-          return type;
-        }
-
-        function expect(char) {
-          if (data[offset] !== char) {
-            throw new Error('Unexpected character "' + data[offset] + '" (expected "' + char + '") at offset ' + offset);
-          }
-          offset++;
-        }
-
-        function readNumberUntil(delim) {
-          const end = data.indexOf(delim, offset);
-          if (end === -1) {
-            throw new Error('Cannot find delimiter "' + delim + '" for number at offset ' + offset);
-          }
-          const numStr = data.slice(offset, end);
-          const num = parseInt(numStr, 10);
-          if (Number.isNaN(num)) {
-            throw new Error('Invalid number "' + numStr + '"');
-          }
-          offset = end + 1;
-          return num;
-        }
-
-        function readValue() {
-          const type = readType();
-          switch (type) {
-            case 'N': {
-              expect(';');
-              return null;
-            }
-            case 'i': {
-              expect(':');
-              const num = readNumberUntil(';');
-              return num;
-            }
-            case 's': {
-              expect(':');
-              const length = readNumberUntil(':');
-              expect('"');
-              const str = data.substr(offset, length);
-              offset += length;
-              expect('"');
-              expect(';');
-              return str;
-            }
-            case 'a': {
-              expect(':');
-              const length = readNumberUntil(':');
-              expect('{');
-              const result = {};
-              for (let i = 0; i < length; i++) {
-                const key = readValue();
-                const value = readValue();
-                result[key] = value;
-              }
-              expect('}');
-              return result;
-            }
-            default:
-              throw new Error('Unsupported PHP serialize type: ' + type);
-          }
-        }
-
-        const value = readValue();
-        return value;
-      }
-
-      // IP utilities
-      function isValidIp(ip) {
-        const parts = ip.split('.');
-        if (parts.length !== 4) return false;
-        for (let i = 0; i < 4; i++) {
-          const n = Number(parts[i]);
-          if (!Number.isInteger(n) || n < 0 || n > 255) return false;
-        }
-        return true;
-      }
-
-      function ipToInt(ip) {
-        const parts = ip.split('.').map(Number);
-        return (((parts[0] * 256 + parts[1]) * 256 + parts[2]) * 256 + parts[3]);
-      }
-
-      function intToIp(num) {
-        const d = num % 256;
-        num = (num - d) / 256;
-        const c = num % 256;
-        num = (num - c) / 256;
-        const b = num % 256;
-        num = (num - b) / 256;
-        const a = num % 256;
-        return [a, b, c, d].join('.');
-      }
-
-      function parseDefinedIPs(definedIPsStr, ipSet) {
-        const items = definedIPsStr.split(',');
-        let totalToAddEstimate = 0;
-
-        for (let rawItem of items) {
-          const item = rawItem.trim();
-          if (!item) continue;
-
-          try {
-            if (item.includes('/')) {
-              totalToAddEstimate += estimateCidrSize(item);
-            } else if (item.includes('-')) {
-              totalToAddEstimate += estimateRangeSize(item);
-            } else {
-              totalToAddEstimate += 1;
-            }
-          } catch (e) {
-            console.warn('Gagal estimasi size untuk item "' + item + '":', e);
-          }
-        }
-
-        if (totalToAddEstimate > MAX_EXPANDED_IPS) {
-          throw new Error(
-            'Jumlah IP yang akan diekspansi terlalu besar (perkiraan: ' +
-            totalToAddEstimate +
-            '). Cek konfigurasi range / CIDR.'
-          );
-        }
-
-        for (let rawItem of items) {
-          const item = rawItem.trim();
-          if (!item) continue;
-
-          try {
-            if (item.includes('/')) {
-              expandCidr(item, ipSet);
-            } else if (item.includes('-')) {
-              expandRange(item, ipSet);
-            } else {
-              if (!isValidIp(item)) {
-                console.warn('IP tidak valid dan di-skip:', item);
-                continue;
-              }
-              ipSet.add(item);
-            }
-          } catch (e) {
-            console.warn('Gagal memproses item "' + item + '":', e);
-          }
-        }
-      }
-
-      function estimateRangeSize(rangeStr) {
-        const parts = rangeStr.split('-');
-        if (parts.length !== 2) throw new Error('Range tidak valid: ' + rangeStr);
-        const start = parts[0].trim();
-        const end = parts[1].trim();
-        if (!isValidIp(start) || !isValidIp(end)) {
-          throw new Error('IP tidak valid dalam range: ' + rangeStr);
-        }
-        const startInt = ipToInt(start);
-        const endInt = ipToInt(end);
-        if (endInt < startInt) {
-          return startInt - endInt + 1;
-        }
-        return endInt - startInt + 1;
-      }
-
-      function estimateCidrSize(cidrStr) {
-        const parts = cidrStr.split('/');
-        if (parts.length !== 2) throw new Error('CIDR tidak valid: ' + cidrStr);
-        const ip = parts[0].trim();
-        const prefix = Number(parts[1].trim());
-        if (!isValidIp(ip) || !Number.isInteger(prefix) || prefix < 0 || prefix > 32) {
-          throw new Error('CIDR tidak valid: ' + cidrStr);
-        }
-        const hostCount = Math.pow(2, 32 - prefix);
-        return hostCount;
-      }
-
-      function expandRange(rangeStr, ipSet) {
-        const parts = rangeStr.split('-');
-        if (parts.length !== 2) throw new Error('Range tidak valid: ' + rangeStr);
-        const start = parts[0].trim();
-        const end = parts[1].trim();
-        if (!isValidIp(start) || !isValidIp(end)) {
-          throw new Error('IP tidak valid dalam range: ' + rangeStr);
-        }
-        let startInt = ipToInt(start);
-        let endInt = ipToInt(end);
-        if (endInt < startInt) {
-          const tmp = startInt;
-          startInt = endInt;
-          endInt = tmp;
-        }
-        const count = endInt - startInt + 1;
-        if (count > MAX_EXPANDED_IPS) {
-          throw new Error('Range terlalu besar: ' + rangeStr + ' (' + count + ' IP).');
-        }
-        for (let i = startInt; i <= endInt; i++) {
-          ipSet.add(intToIp(i));
-        }
-      }
-
-      function expandCidr(cidrStr, ipSet) {
-        const parts = cidrStr.split('/');
-        if (parts.length !== 2) throw new Error('CIDR tidak valid: ' + cidrStr);
-        const ip = parts[0].trim();
-        const prefix = Number(parts[1].trim());
-        if (!isValidIp(ip) || !Number.isInteger(prefix) || prefix < 0 || prefix > 32) {
-          throw new Error('CIDR tidak valid: ' + cidrStr);
-        }
-        const baseInt = ipToInt(ip);
-        const hostCount = Math.pow(2, 32 - prefix);
-
-        if (hostCount > MAX_EXPANDED_IPS) {
-          throw new Error('CIDR terlalu besar: ' + cidrStr + ' (' + hostCount + ' IP).');
-        }
-
-        const mask = ~((hostCount - 1)) >>> 0;
-        const networkStart = (baseInt & mask) >>> 0;
-
-        for (let i = 0; i < hostCount; i++) {
-          const current = networkStart + i;
-          ipSet.add(intToIp(current));
-        }
-      }
-    })();
-  </script>
+})();
+</script>
 </body>
 </html>
