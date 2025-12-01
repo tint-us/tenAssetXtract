@@ -1,13 +1,62 @@
-# XML → IP CSV Converter (Browser-side)
+# TenAssetXtract
 
-Aplikasi web single-page yang berjalan 100% di browser (client-side) untuk:
-- Membaca file XML berisi tag <definition> yang di-encode Base64 dari hasil PHP serialize.
-- Melakukan decode Base64 → unserialize PHP → ambil field "definedIPs".
-- Parsing daftar IP (single IP, range, CIDR).
-- Ekspansi menjadi IP per-satuan.
-- Export hasil ke CSV (1 IP per baris).
+## Background Story
 
-Tidak ada backend / server-side processing. Semua logika di JavaScript murni.
+Sebagai pengguna Tenable Security Center untuk mengelola inventaris aset jaringan secara statis (Static IP List), saya ingin melakukan export seluruh asset yang menggunakan metode tersebut. Ekspektasinya jelas: saya butuh daftar IP Address yang bisa langsung dipakai untuk analisis lanjutan.
+
+Namun, output yang dihasilkan ternyata bukan IP, melainkan file **XML** — dan di dalamnya tersimpan sebuah data **Base64**, yang setelah di-decode berubah menjadi **PHP-serialized object** dengan field bernama `definedIPs`. Not exactly user-friendly ketika harus dibaca manual, apalagi jika skalanya ribuan baris data aset.
+
+Padahal yang saya butuhkan sederhana:
+
+> Di akhir export, saya ingin mendapatkan **IP list satu baris per IP**, sudah diexpand dari range dan CIDR, rapi, deduplikat, dan langsung usable.
+
+Karena tidak ada tool bawaan untuk melakukan rangkaian proses tersebut (decode → unserialize → extract → expand IP), saya mulai membuat utility client-side berbasis browser. Tanpa backend. Tanpa service tambahan. Cukup sekali proses, selesai, dan bisa langsung di-export ulang.
+
+Dari problem kecil tapi repeatable inilah **TenAssetXtract** lahir.
+
+### Inti Masalah yang Diselesaikan
+
+- Export asset **Static IP List** menghasilkan **XML**, bukan IP
+- Data IP tersimpan di dalam **PHP-serialized object** yang telah di-encode **Base64**
+- Untuk membaca field `definedIPs`, dibutuhkan proses decode & parsing manual
+- Efisiensi turun, risiko human error naik, dan waktunya kebuang di hal yang seharusnya bisa diotomasi
+
+### Solution
+
+**TenAssetXtract** melakukan proses:
+
+1. Membaca XML hasil export Tenable Security Center
+2. Decode isi Base64 di dalamnya
+3. Unserialize subset PHP-object
+4. Ambil field `definedIPs`
+5. Ekspansi IP (single, range, CIDR) menjadi 1 IP per baris
+6. Deduplikasi & sorting
+7. Tampilkan dan export kembali menjadi file **IP list yang usable**
+
+### Audience / Pengguna
+
+Tool ini ditujukan untuk:
+
+- Pengguna Tenable Security Center atau Tenable ecosystem lainnya
+- Yang pernah export Static IP List
+- Dan ternyata output-nya adalah XML berisi Base64 dari PHP-serialized object
+- Lalu ujung-ujungnya hanya butuh **IP list usable** untuk diproses lebih lanjut
+
+### Kenapa Tool Ini Dibuat di Browser
+
+Karena saya ingin tool-nya:
+
+- **Ringan, cepat, portable**
+- **No server hosting required**
+- Bisa dibuka langsung via browser atau diserve lewat container `"nginx:alpine"` jika dibutuhkan
+
+---
+
+> Tidak semua tool harus besar untuk menyelesaikan problem besar. Terkadang yang kita butuhkan cuma menyelesaikan problem kecil yang selalu muncul dan mengganggu flow kerja kita.
+
+Kalau Anda membaca ini dan merasa, *“Wah ini gue banget”*, berarti kita pernah mengalami problem yang sama. Semoga TenAssetXtract bisa menghemat waktu Anda seperti waktu saya dulu diselamatkan tool ini.
+
+Happy Xtracting ✌️
 
 ---
 
