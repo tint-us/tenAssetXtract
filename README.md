@@ -160,7 +160,7 @@ Langkah:
 Aplikasi ini adalah aplikasi statis (HTML + JS). Cara paling simpel adalah menggunakan image `nginx:alpine`.
 
 ### Dockerfile
-
+```
 FROM nginx:alpine
 
 # hapus default html nginx
@@ -172,27 +172,27 @@ COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
-
+```
 ### Build Image
 
 Di folder yang berisi `index.html` dan `Dockerfile`, jalankan:
-
+```
 docker build -t ip-xml-converter .
-
+```
 ### Run Container
-
+```
 docker run --rm -p 8080:80 --name ip-xml-converter ip-xml-converter
-
+```
 Lalu akses di browser:
-
+```
 http://localhost:8080
-
+```
 ---
 
 ## Docker Compose (Opsional)
 
 Buat file `docker-compose.yml`:
-
+```
 version: "3.8"
 
 services:
@@ -204,15 +204,15 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
-
+```
 Jalankan:
-
+```
 docker compose up --build -d
-
+```
 Akses:
-
+```
 http://localhost:8080
-
+```
 ---
 
 ## Catatan Teknis Implementasi
