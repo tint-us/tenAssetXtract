@@ -151,18 +151,18 @@ Langkah:
 2. Enable site (kalau pakai Debian/Ubuntu):
    - `ln -s /etc/nginx/sites-available/tenassetxtract.conf /etc/nginx/sites-enabled/tenassetxtract.conf`
 3. Tambah entry di `/etc/hosts`:
-
+```
    127.0.0.1   tenassetxtract.local
-
+```
 4. Test config dan reload:
-
+```
    nginx -t
    systemctl reload nginx
-
+```
 5. Akses di browser:
-
+```
    http://tenassetxtract.local
-
+```
 ---
 
 ### 2. Apache HTTPD
