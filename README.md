@@ -2,26 +2,27 @@
 
 ## Background Story
 
-Sebagai pengguna Tenable Security Center untuk mengelola inventaris aset jaringan secara statis (Static IP List), saya ingin melakukan export seluruh asset yang menggunakan metode tersebut. Ekspektasinya jelas: saya butuh daftar IP Address yang bisa langsung dipakai untuk analisis lanjutan.
+## Latar Belakang
 
-Namun, output yang dihasilkan ternyata bukan IP, melainkan file **XML** — dan di dalamnya tersimpan sebuah data **Base64**, yang setelah di-decode berubah menjadi **PHP-serialized object** dengan field bernama `definedIPs`. Not exactly user-friendly ketika harus dibaca manual, apalagi jika skalanya ribuan baris data aset.
-
-Padahal yang saya butuhkan sederhana:
-
-> Di akhir export, saya ingin mendapatkan **IP list satu baris per IP**, sudah diexpand dari range dan CIDR, rapi, deduplikat, dan langsung usable.
-
-Karena tidak ada tool bawaan untuk melakukan rangkaian proses tersebut (decode → unserialize → extract → expand IP), saya mulai membuat utility client-side berbasis browser. Tanpa backend. Tanpa service tambahan. Cukup sekali proses, selesai, dan bisa langsung di-export ulang.
+1. Saya menggunakan Tenable Security Center (Tenable SC) dan perlu melakukan export seluruh Asset yang berbasis metode **Static IP List**.
+2. Hasil export yang diperoleh ternyata bukan berupa daftar IP Address, melainkan sebuah file **XML** yang di dalamnya menyimpan data dalam bentuk **Base64 dari PHP-serialized object**.
+3. Untuk keperluan analisis dan pemrosesan lanjutan, saya membutuhkan **daftar IP Address** yang dapat digunakan secara langsung (plaintext, satu IP per baris).
+4. Berdasarkan kebutuhan tersebut, saya membuat aplikasi sederhana ini untuk membantu proses ekstraksi IP, serta mempermudah pengguna Tenable lain yang menghadapi permasalahan serupa.
 
 Dari problem kecil tapi repeatable inilah **TenAssetXtract** lahir.
 
 ### Inti Masalah yang Diselesaikan
 
-- Export asset **Static IP List** menghasilkan **XML**, bukan IP
+- Aplikasi ini digunakan untuk melakukan **extract XML** yang berisikan asset dari hasil export di **Tenable SC** dengan type asset **"Static IP List"**
+- Pada Tenable SC, menu yang digunakan adalah **Assets - Assets** - Centang pada “Static IP List” yang dimaksud. Klik **export** pada atas panel
+
+![Alt Text](https://github.com/user-attachments/assets/790fd6bf-77d7-4960-aa2d-554ab15a05b4)
+
+### Solution
+
 - Data IP tersimpan di dalam **PHP-serialized object** yang telah di-encode **Base64**
 - Untuk membaca field `definedIPs`, dibutuhkan proses decode & parsing manual
 - Efisiensi turun, risiko human error naik, dan waktunya kebuang di hal yang seharusnya bisa diotomasi
-
-### Solution
 
 **TenAssetXtract** melakukan proses:
 
@@ -37,10 +38,10 @@ Dari problem kecil tapi repeatable inilah **TenAssetXtract** lahir.
 
 Tool ini ditujukan untuk:
 
-- Pengguna Tenable Security Center atau Tenable ecosystem lainnya
+- Pengguna Tenable Security Center (Tenable SC)
 - Yang pernah export Static IP List
 - Dan ternyata output-nya adalah XML berisi Base64 dari PHP-serialized object
-- Lalu ujung-ujungnya hanya butuh **IP list usable** untuk diproses lebih lanjut
+- Butuh **IP list usable** untuk diproses lebih lanjut
 
 ### Kenapa Tool Ini Dibuat di Browser
 
