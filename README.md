@@ -125,17 +125,17 @@ Untuk mencegah browser freeze, ada guard:
 Misal struktur direktori:
 
 - Document root untuk app ini:
-  - `/var/www/ip-converter/`
+  - `/var/www/tenassetxtract/`
 - Isi minimal:
-  - `/var/www/ip-converter/index.html`
+  - `/var/www/tenassetxtract/index.html`
 
 Contoh konfigurasi server block:
 ```
 server {
     listen 80;
-    server_name ip-converter.local;
+    server_name tenassetxtract.local;
 
-    root /var/www/ip-converter;
+    root /var/www/tenassetxtract;
     index index.html;
 
     location / {
@@ -147,12 +147,12 @@ server {
 Langkah:
 
 1. Simpan config di file, misalnya:
-   - `/etc/nginx/sites-available/ip-converter.conf`
+   - `/etc/nginx/sites-available/tenassetxtract.conf`
 2. Enable site (kalau pakai Debian/Ubuntu):
-   - `ln -s /etc/nginx/sites-available/ip-converter.conf /etc/nginx/sites-enabled/ip-converter.conf`
+   - `ln -s /etc/nginx/sites-available/tenassetxtract.conf /etc/nginx/sites-enabled/tenassetxtract.conf`
 3. Tambah entry di `/etc/hosts`:
 
-   127.0.0.1   ip-converter.local
+   127.0.0.1   tenassetxtract.local
 
 4. Test config dan reload:
 
@@ -161,7 +161,7 @@ Langkah:
 
 5. Akses di browser:
 
-   http://ip-converter.local
+   http://tenassetxtract.local
 
 ---
 
@@ -169,40 +169,40 @@ Langkah:
 
 Struktur direktori:
 
-- `/var/www/ip-converter/index.html`
+- `/var/www/tenassetxtract/index.html`
 
 Contoh VirtualHost:
 ```
 <VirtualHost *:80>
-    ServerName ip-converter.local
-    DocumentRoot /var/www/ip-converter
+    ServerName tenassetxtract.local
+    DocumentRoot /var/www/tenassetxtract
 
-    <Directory /var/www/ip-converter>
+    <Directory /var/www/tenassetxtract>
         Options Indexes FollowSymLinks
         AllowOverride None
         Require all granted
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/ip-converter-error.log
-    CustomLog ${APACHE_LOG_DIR}/ip-converter-access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/tenassetxtract-error.log
+    CustomLog ${APACHE_LOG_DIR}/tenassetxtract-access.log combined
 </VirtualHost>
 ```
 Langkah:
 
-1. Simpan sebagai `/etc/apache2/sites-available/ip-converter.conf`
+1. Simpan sebagai `/etc/apache2/sites-available/tenassetxtract.conf`
 2. Enable site dan reload:
 ```
-   a2ensite ip-converter.conf
+   a2ensite tenassetxtract.conf
    apachectl configtest
    systemctl reload apache2
 ```
 3. Tambah di `/etc/hosts`:
 ```
-   127.0.0.1   ip-converter.local
+   127.0.0.1   tenassetxtract.local
 ```
 4. Akses:
 ```
-   http://ip-converter.local
+   http://tenassetxtract.local
 ```
 ---
 
