@@ -1,15 +1,11 @@
 # TenAssetXtract
 
-## Background Story
-
 ## Latar Belakang
 
-1. Saya menggunakan Tenable Security Center (Tenable SC) dan perlu melakukan export seluruh Asset yang berbasis metode **Static IP List**.
-2. Hasil export yang diperoleh ternyata bukan berupa daftar IP Address, melainkan sebuah file **XML** yang di dalamnya menyimpan data dalam bentuk **Base64 dari PHP-serialized object**.
-3. Untuk keperluan analisis dan pemrosesan lanjutan, saya membutuhkan **daftar IP Address** yang dapat digunakan secara langsung (plaintext, satu IP per baris).
-4. Berdasarkan kebutuhan tersebut, saya membuat aplikasi sederhana ini untuk membantu proses ekstraksi IP, serta mempermudah pengguna Tenable lain yang menghadapi permasalahan serupa.
-
-Dari problem kecil tapi repeatable inilah **TenAssetXtract** lahir.
+1. Dalam penggunaan Tenable Security Center (Tenable SC), saya perlu melakukan export seluruh Asset yang menggunakan metode **Static IP List**.
+2. Proses export tidak menghasilkan daftar IP Address secara langsung, melainkan sebuah file **XML** yang berisi data dalam bentuk **Base64-encoded PHP-serialized object**.
+3. Untuk kebutuhan analisis, integrasi, maupun pemrosesan lanjutan, diperlukan **daftar IP Address dalam format plaintext** (satu IP per baris) yang dapat digunakan tanpa decoding manual.
+4. Berdasarkan kebutuhan tersebut, aplikasi ini dikembangkan untuk melakukan **ekstraksi, decoding, parsing, dan ekspansi IP** secara otomatis, sehingga mempermudah pengguna Tenable yang menghadapi permasalahan serupa.
 
 ### Inti Masalah yang Diselesaikan
 
@@ -22,7 +18,6 @@ Dari problem kecil tapi repeatable inilah **TenAssetXtract** lahir.
 
 - Data IP tersimpan di dalam **PHP-serialized object** yang telah di-encode **Base64**
 - Untuk membaca field `definedIPs`, dibutuhkan proses decode & parsing manual
-- Efisiensi turun, risiko human error naik, dan waktunya kebuang di hal yang seharusnya bisa diotomasi
 
 **TenAssetXtract** melakukan proses:
 
@@ -42,15 +37,6 @@ Tool ini ditujukan untuk:
 - Yang pernah export Static IP List
 - Dan ternyata output-nya adalah XML berisi Base64 dari PHP-serialized object
 - Butuh **IP list usable** untuk diproses lebih lanjut
-
-### Kenapa Tool Ini Dibuat di Browser
-
-Karena saya ingin tool-nya:
-
-- **Ringan, cepat, portable**
-- **No server hosting required**
-- Bisa dibuka langsung via browser atau diserve lewat container `"nginx:alpine"` jika dibutuhkan
-
 ---
 
 > Tidak semua tool harus besar untuk menyelesaikan problem besar. Terkadang yang kita butuhkan cuma menyelesaikan problem kecil yang selalu muncul dan mengganggu flow kerja kita.
